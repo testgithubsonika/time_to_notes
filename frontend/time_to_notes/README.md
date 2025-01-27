@@ -1,5 +1,7 @@
 # React + Vite
-
+//for server npm start , connected mongo db , connected with insomenia api ,
+then complete sign in , signup ,
+//for client side npm run dev 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 //first get inside frontend then time_to_note folder.
 
