@@ -2,9 +2,10 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from '../../components/navbar/Navbar'
 import Input from '../../components/password/input'
+import Header from '../../components/Header'
 const Login = () => {
   return (<>
-<Navbar />
+<Header />
 <div>
 <div  className='py-12 max-w-lg mx-auto'>
 <form type = "text" placeholder ="name"className='flex flex-col gap-4 ' onSubmit={() => {}}>
