@@ -1,36 +1,74 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import Navbar from '../../components/navbar/Navbar'
-import Input from '../../components/password/input'
+import { Link ,useNavigate} from 'react-router-dom'
 import Header from '../../components/Header'
-const Login = () => {
+import { useState } from 'react'
+export default function Login() {
+  const [formData, setFormData] = useState({}) ;
+  const [error, setError] = useState(false) ;
+  const [loading, setLoading] = useState(false) ;
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]:e.target.value});
+  } 
+  console.log(formData) ;
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  try{
+    setError(false); 
+    setLoading(true);
+     const res = await fetch('/api/auth/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      console.log(data);
+      setError(false)
+      if(data.success===false){
+        setError(true);
+        return ;
+      } 
+      navigate('/signin');
+  }
+  catch(error){
+    setLoading(false); 
+    setError(true);
+  }
+  } ;error,loading
   return (<>
-<Header />
-<div>
-<div  className='py-12 max-w-lg mx-auto'>
-<form type = "text" placeholder ="name"className='flex flex-col gap-4 ' onSubmit={() => {}}>
-<h4 className="text-3xl py-8 text-center">Login</h4>
- <input type ="email" placeholder = 'Email' id='username' className='bg-slate-100 p-3 rounded-lg
-            '/>
- <input type ="password" placeholder = 'Password' id='password' className='bg-slate-100 p-3 rounded-lg
-            '/>
-<button className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
-Login
-</button> 
+  <Header />
+    <div className='p-3 max-w-lg mx-auto'> 
+        <h2 className='text-3xl font-semibold rounded text-center m-20'>  
+        Sign in</h2>
+      
+          <form onSubmit={handleSubmit} type = "text" placeholder ="name"className='flex flex-col gap-4 '>
+            {/* <input type ="text" placeholder = 'Username' id='username' className='bg-slate-100 p-3 rounded-lg
+            'onChange={handleChange}/>  */}
+            <input type ="email" placeholder = 'Email' id='email' className='bg-slate-100 p-3 rounded-lg
+            'onChange={handleChange}/>
+            <input type ="password" placeholder = 'Password' id='password' className='bg-slate-100 p-3 rounded-lg
+            'onChange={handleChange}/>
+            <button
+              disabled = {loading}
+              className=' text-white p-3 uppercase bg-slate-600 rounded-lg hover:opacity-95 disabled:opacity-60'>
+               {loading ? 'loading...' : 'sign-in'}
+            </button>
+            {/* <button className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>Sign up</button>  */}
+          </form>
+          <div className="mt-4 text-slate-950">
+          <p>Dont Have an account</p>
+            <Link to='/Signup'>
+            <span clasName='text-blue-500 '>Sign up</span>
+            </Link>
+          </div>
+          <p className='mt-5 text-red-500'>{error && 'something went wrong'}</p>
+      </div>
 
-<p className="text-sm  text-center mt-4">
-<div className='text-pink-600'>Not registered yet?</div>{" "}
-{/* <a href='/Signup'></a> */}
-<Link to="/Signup"> 
- Create an Account
-</Link>
-</p>
-</form>
-</div>
-</div>
-
-</>)
-
+   
+   
+    </>
+  )
 }
 
-export default Login
