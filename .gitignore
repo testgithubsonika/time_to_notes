@@ -14,7 +14,7 @@ dist-ssr
 
 # Editor directories and files
 .vscode/*
-!.vscode/extensions.json
+# !.vscode/extensions.json
 .idea
 .DS_Store
 *.suo
@@ -23,3 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 .env
+.json
+
+# filepath: .gitignore
+backend/women-6655c-firebase-adminsdk-fbsvc-114d33341b.json
